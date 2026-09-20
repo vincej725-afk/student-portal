@@ -10,22 +10,29 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Departments first (students need them)
         $this->call(DepartmentSeeder::class);
 
-        // 2. Courses
-        $courses = Course::factory(8)->create();
+        $courseCount = Course::count();
+        if ($courseCount < 8) {
+            Course::factory(8 - $courseCount)->create();
+        }
 
-        // 3. Students, each enrolled in 3 random courses with a random grade
-        Student::factory(30)->create()->each(function (Student $student) use ($courses) {
-            $picked = $courses->random(3);
-            foreach ($picked as $course) {
-                $student->courses()->attach($course->id, [
-                    'grade' => fake()->randomElement([
-                        1.00, 1.25, 1.50, 1.75, 2.00, 2.50, 3.00, null
-                    ]),
-                ]);
-            }
-        });
+        $courses = Course::query()->limit(8)->get();
+
+        $studentCount = Student::count();
+        if ($studentCount < 30) {
+            Student::factory(30 - $studentCount)->create()->each(function (Student $student) use ($courses) {
+                $picked = $courses->random(min(3, $courses->count()));
+                foreach ($picked as $course) {
+                    $student->courses()->syncWithoutDetaching([
+                        $course->id => [
+                            'grade' => fake()->randomElement([
+                                1.00, 1.25, 1.50, 1.75, 2.00, 2.50, 3.00, null,
+                            ]),
+                        ],
+                    ]);
+                }
+            });
+        }
     }
 }

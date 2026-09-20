@@ -18,4 +18,5 @@ class Course extends Model
             ->withPivot('grade')
             ->withTimestamps();
     }
-}
+
+    }
