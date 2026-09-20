@@ -12,6 +12,7 @@
             <th>Student No.</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Dept</th>
             <th>Year</th>
             <th></th>
@@ -23,6 +24,7 @@
                 <td>{{ $student->student_number }}</td>
                 <td><a href="{{ route('students.show', $student) }}">{{ $student->full_name }}</a></td>
                 <td>{{ $student->email }}</td>
+                <td>{{ $student->phone ?? '—' }}</td>
                 <td>{{ $student->department->code }}</td>
                 <td>{{ $student->year_level }}</td>
                 <td class="text-end">
@@ -35,7 +37,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="6" class="text-center">No students yet.</td></tr>
+            <tr><td colspan="7" class="text-center">No students yet.</td></tr>
         @endforelse
     </tbody>
 </table>

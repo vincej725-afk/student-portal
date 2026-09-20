@@ -16,6 +16,7 @@ class Student extends Model
         'first_name',
         'last_name',
         'email',
+        'phone',
         'birth_date',
         'year_level',
         'department_id',

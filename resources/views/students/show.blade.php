@@ -3,7 +3,7 @@
 @section('content')
 <h1>{{ $student->full_name }}</h1>
 <p class="text-muted">{{ $student->student_number }} · {{ $student->department->name }} · Year {{ $student->year_level }}</p>
-<p>Email: {{ $student->email }} · Age: {{ $student->birth_date->age }}</p>
+<p>Email: {{ $student->email }} · Phone: {{ $student->phone ?? 'N/A' }} · Age: {{ $student->birth_date->age }}</p>
 
 <h4>Enrolled Courses</h4>
 <table class="table bg-white">

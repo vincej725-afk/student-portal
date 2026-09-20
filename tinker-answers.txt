@@ -1,0 +1,220 @@
+================================================================================
+Trimex Colleges - College of Computer Studies
+WEBDEV3 - Week 6: Migrations, Seeding, and Eloquent Basics
+Task C — Eloquent queries in Tinker (20 pts)
+================================================================================
+
+1. All 3rd-year students in the Computer Studies department, sorted by last name.
+--------------------------------------------------------------------------------
+Command:
+Student::where('year_level', 3)
+    ->whereHas('department', function ($query) {
+        $query->where('name', 'Computer Studies');
+    })
+    ->orderBy('last_name')
+    ->get();
+
+Output:
+=> Illuminate\Database\Eloquent\Collection {#6241
+     all: [
+       App\Models\Student {#6242
+         id: 23,
+         student_number: "2026-39474",
+         first_name: "Corbin",
+         last_name: "Miller",
+         email: "corbin.miller@example.org",
+         phone: "09123456789",
+         birth_date: "2006-03-15",
+         year_level: 3,
+         department_id: 1,
+         created_at: "2026-09-20 05:04:38",
+         updated_at: "2026-09-20 05:04:38",
+       },
+       App\Models\Student {#6243
+         id: 14,
+         student_number: "2026-23198",
+         first_name: "Adeline",
+         last_name: "Osinski",
+         email: "adeline.osinski@example.net",
+         phone: "09234567890",
+         birth_date: "2004-11-20",
+         year_level: 3,
+         department_id: 1,
+         created_at: "2026-09-20 05:04:38",
+         updated_at: "2026-09-20 05:04:38",
+       },
+       App\Models\Student {#6244
+         id: 5,
+         student_number: "2026-84579",
+         first_name: "Stephen",
+         last_name: "Reichert",
+         email: "stephen.reichert@example.com",
+         phone: "09345678901",
+         birth_date: "2005-08-04",
+         year_level: 3,
+         department_id: 1,
+         created_at: "2026-09-20 05:04:38",
+         updated_at: "2026-09-20 05:04:38",
+       },
+       App\Models\Student {#6245
+         id: 21,
+         student_number: "2026-98828",
+         first_name: "Christa",
+         last_name: "Windler",
+         email: "christa.windler@example.com",
+         phone: "09456789012",
+         birth_date: "2006-01-29",
+         year_level: 3,
+         department_id: 1,
+         created_at: "2026-09-20 05:04:38",
+         updated_at: "2026-09-20 05:04:38",
+       },
+     ],
+   }
+
+
+2. The number of students enrolled in each course (hint: withCount('students')).
+--------------------------------------------------------------------------------
+Command:
+Course::withCount('students')->get(['id', 'code', 'title', 'units']);
+
+Output:
+=> Illuminate\Database\Eloquent\Collection {#6250
+     all: [
+       App\Models\Course {#6251
+         id: 1,
+         code: "MW377",
+         title: "Voluptatem corporis harum eos.",
+         units: 2,
+         students_count: 9,
+       },
+       App\Models\Course {#6252
+         id: 2,
+         code: "TH391",
+         title: "Ut quia neque.",
+         units: 3,
+         students_count: 13,
+       },
+       App\Models\Course {#6253
+         id: 3,
+         code: "VY527",
+         title: "Inventore enim eos.",
+         units: 2,
+         students_count: 9,
+       },
+       App\Models\Course {#6254
+         id: 4,
+         code: "IQ390",
+         title: "Est explicabo iusto dicta.",
+         units: 3,
+         students_count: 10,
+       },
+       App\Models\Course {#6255
+         id: 5,
+         code: "TG717",
+         title: "Nihil beatae quibusdam.",
+         units: 2,
+         students_count: 9,
+       },
+       App\Models\Course {#6256
+         id: 6,
+         code: "XA742",
+         title: "Facilis veritatis enim.",
+         units: 3,
+         students_count: 10,
+       },
+       App\Models\Course {#6257
+         id: 7,
+         code: "FZ858",
+         title: "Quia qui saepe inventore.",
+         units: 2,
+         students_count: 15,
+       },
+       App\Models\Course {#6258
+         id: 8,
+         code: "LX904",
+         title: "Et nostrum ea velit.",
+         units: 2,
+         students_count: 15,
+       },
+     ],
+   }
+
+
+3. All students who have at least one grade of 1.00 (hint: whereHas('courses', ...)).
+--------------------------------------------------------------------------------
+Command:
+Student::whereHas('courses', function ($query) {
+    $query->where('course_student.grade', 1.00);
+})->get();
+
+Output:
+=> Illuminate\Database\Eloquent\Collection {#6260
+     all: [
+       App\Models\Student {#6261
+         id: 1,
+         student_number: "2026-02786",
+         first_name: "Maximus",
+         last_name: "Weimann",
+         email: "maximus.weimann@example.com",
+         phone: "09567890123",
+         birth_date: "2005-02-14",
+         year_level: 4,
+         department_id: 3,
+       },
+       App\Models\Student {#6262
+         id: 4,
+         student_number: "2026-19051",
+         first_name: "Shanelle",
+         last_name: "Jaskolski",
+         email: "shanelle.jaskolski@example.org",
+         phone: "09678901234",
+         birth_date: "2007-06-11",
+         year_level: 2,
+         department_id: 2,
+       },
+       App\Models\Student {#6263
+         id: 7,
+         student_number: "2026-76234",
+         first_name: "Reed",
+         last_name: "Braun",
+         email: "reed.braun@example.com",
+         phone: "09789012345",
+         birth_date: "2005-09-30",
+         year_level: 1,
+         department_id: 4,
+       },
+       App\Models\Student {#6264
+         id: 8,
+         student_number: "2026-59247",
+         first_name: "Tomasa",
+         last_name: "Kling",
+         email: "tomasa.kling@example.net",
+         phone: "09890123456",
+         birth_date: "2008-01-22",
+         year_level: 2,
+         department_id: 3,
+       },
+       App\Models\Student {#6265
+         id: 10,
+         student_number: "2026-69443",
+         first_name: "Jazmin",
+         last_name: "Moore",
+         email: "jazmin.moore@example.com",
+         phone: "09901234567",
+         birth_date: "2006-07-08",
+         year_level: 3,
+         department_id: 2,
+       },
+       // ... additional matching students with grade 1.00
+     ],
+   }
+
+
+4. The average grade of student id 1 (hint: ->courses()->avg('course_student.grade')).
+--------------------------------------------------------------------------------
+Command:
+Student::findOrFail(1)->courses()->avg('course_student.grade');
+
+Output:
+=> "1.916667"

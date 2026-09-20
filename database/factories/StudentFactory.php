@@ -14,6 +14,7 @@ class StudentFactory extends Factory
             'first_name'     => fake()->firstName(),
             'last_name'      => fake()->lastName(),
             'email'          => fake()->unique()->safeEmail(),
+            'phone'          => fake()->numerify('09#########'),
             'birth_date'     => fake()->dateTimeBetween('-24 years', '-17 years'),
             'year_level'     => fake()->numberBetween(1, 4),
             'department_id'  => Department::inRandomOrder()->first()->id,

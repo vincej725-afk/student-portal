@@ -25,6 +25,10 @@
         <label class="form-label">Email</label>
         <input type="email" name="email" class="form-control" value="{{ old('email', $student->email ?? '') }}">
     </div>
+    <div class="col-md-6">
+        <label class="form-label">Phone</label>
+        <input type="text" name="phone" class="form-control" value="{{ old('phone', $student->phone ?? '') }}">
+    </div>
     <div class="col-md-3">
         <label class="form-label">Birth Date</label>
         <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date', isset($student) && $student->birth_date ? $student->birth_date->format('Y-m-d') : '') }}">
